@@ -1,0 +1,6 @@
+﻿  CHIP-8.cpp
+E:\Projects\CHIP-8 Interpreter\CHIP-8 Interpreter\src\CHIP-8.cpp(13,12): warning C4244: 'argument': conversion from 'time_t' to 'unsigned int', possible loss of data
+E:\Projects\CHIP-8 Interpreter\CHIP-8 Interpreter\src\CHIP-8.cpp(138,21): warning C4244: '=': conversion from 'uint16_t' to 'uint8_t', possible loss of data
+  main.cpp
+  Generating Code...
+  CHIP-8 Interpreter.vcxproj -> E:\Projects\CHIP-8 Interpreter\Debug\CHIP-8 Interpreter.exe

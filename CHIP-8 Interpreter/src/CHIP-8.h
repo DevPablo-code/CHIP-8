@@ -1,0 +1,85 @@
+#pragma once
+
+#include <GL/glew.h>
+#include <GLFW/glfw3.h>
+
+#include <cstdint>
+#include <stdlib.h>
+#include <time.h>
+#include <string>
+#include <array>
+#include <map>
+#include <chrono>
+#include <iostream>
+
+#ifdef _DEBUG
+#define LOG(x) std::cout << x << '\n'
+#else
+#define LOG(x)	
+#endif
+
+class CHIP8 {
+	public:
+		uint16_t Opcode = 0;
+		std::array<uint8_t, 64 * 32> videoBuffer;
+
+		CHIP8(GLFWwindow* window);
+		void loadProgram(const std::string& path);
+		void loadFont();
+		void nextInstruction();
+		void executeInstruction();
+	private:
+		const int INSTRCUTIONS_PER_SECOND = 1000;
+		const std::map<uint8_t, int> keys = {
+			{ 0x0, GLFW_KEY_X },
+			{ 0x1, GLFW_KEY_1 },
+			{ 0x2, GLFW_KEY_2 },
+			{ 0x3, GLFW_KEY_3},
+			{ 0x4, GLFW_KEY_Q },
+			{ 0x5, GLFW_KEY_W },
+			{ 0x6, GLFW_KEY_E },
+			{ 0x7, GLFW_KEY_A },
+			{ 0x8, GLFW_KEY_S },
+			{ 0x9, GLFW_KEY_D },
+			{ 0xA, GLFW_KEY_Z },
+			{ 0xB, GLFW_KEY_C },
+			{ 0xC, GLFW_KEY_4 },
+			{ 0xD, GLFW_KEY_R },
+			{ 0xE, GLFW_KEY_F },
+			{ 0xF, GLFW_KEY_V },
+		};
+
+		std::chrono::steady_clock::time_point lastTimerTick;
+		GLFWwindow *window;
+
+		const uint8_t FONT[16 * 5] =
+		{
+			0xF0, 0x90, 0x90, 0x90, 0xF0, // 0
+			0x20, 0x60, 0x20, 0x20, 0x70, // 1
+			0xF0, 0x10, 0xF0, 0x80, 0xF0, // 2
+			0xF0, 0x10, 0xF0, 0x10, 0xF0, // 3
+			0x90, 0x90, 0xF0, 0x10, 0x10, // 4
+			0xF0, 0x80, 0xF0, 0x10, 0xF0, // 5
+			0xF0, 0x80, 0xF0, 0x90, 0xF0, // 6
+			0xF0, 0x10, 0x20, 0x40, 0x40, // 7
+			0xF0, 0x90, 0xF0, 0x90, 0xF0, // 8
+			0xF0, 0x90, 0xF0, 0x10, 0xF0, // 9
+			0xF0, 0x90, 0xF0, 0x90, 0x90, // A
+			0xE0, 0x90, 0xE0, 0x90, 0xE0, // B
+			0xF0, 0x80, 0x80, 0x80, 0xF0, // C
+			0xE0, 0x90, 0x90, 0x90, 0xE0, // D
+			0xF0, 0x80, 0xF0, 0x80, 0xF0, // E
+			0xF0, 0x80, 0xF0, 0x80, 0x80  // F
+		};
+		
+		std::array<uint8_t, 4096> memory;
+		std::array<uint8_t, 16> registers;
+		std::array<uint16_t, 16> stack;
+
+		uint8_t SP;
+		uint16_t IP;
+		uint8_t DT;
+		uint8_t ST;
+
+		uint16_t PC = 0x200;
+};
